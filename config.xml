@@ -1,20 +1,19 @@
-
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="com.easybus" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Easy Bus</name>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.easybus" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Easy Bus</name>
     <description>
         Easy Bus App
     </description>
-    <author email="easybus@app" href="http://easybus.com/">
+  <author email="easybus@app" href="http://easybus.com/">
         Easy Bus App Team
     </author>
-    <content src="index.html"/>
-    <access origin="*"/>
-    <preference name="webviewbounce" value="false"/>
-    <preference name="UIWebViewBounce" value="false"/>
-    <preference name="DisallowOverscroll" value="true"/>
-    <preference name="BackupWebStorage" value="none"/>
-    <feature name="StatusBar">
-        <param name="ios-package" value="CDVStatusBar" onload="true"/>
-    </feature>
+  <content src="index.html"/>
+  <access origin="*"/>
+  <preference name="webviewbounce" value="false"/>
+  <preference name="UIWebViewBounce" value="false"/>
+  <preference name="DisallowOverscroll" value="true"/>
+  <preference name="BackupWebStorage" value="none"/>
+  <feature name="StatusBar">
+    <param name="ios-package" value="CDVStatusBar" onload="true"/>
+  </feature>
 </widget>
