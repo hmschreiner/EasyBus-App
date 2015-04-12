@@ -17,7 +17,7 @@
        under the License.
  */
 
-package com.easybus;
+package com.easybus ;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
