@@ -2,30 +2,27 @@ angular.module('starter.controllers', [])
 
         .controller('MapCtrl', function ($scope, $ionicLoading, $compile, $location) {
 
-            var styles = [{ stylers: [{ saturation: -90 }] }, { featureType: "transit", elementType: "all", stylers: [{ lightness: 100 }, { visibility: "off" }] }, { featureType: "poi", elementType: "all", stylers: [{ lightness: 100 }, { visibility: "off" }] }];
+            var styles = [{stylers: [{saturation: -90}]}, {featureType: "transit", elementType: "all", stylers: [{lightness: 100}, {visibility: "off"}]}, {featureType: "poi", elementType: "all", stylers: [{lightness: 100}, {visibility: "off"}]}];
 
             var locations = [
                 ['3719', -29.97877700000000000, -51.19641500000000000],
                 ['5939', -29.97877300000000000, -51.18900100000000000],
                 ['3983', -29.97877700000000000, -51.17880000000000000],
                 ['268', -30.16219500000000000, -51.18286000000000000],
+                ['5939', -29.9785089, -51.1141371]
             ];
 
             function initialize() {
-                var myLatlng = new google.maps.LatLng(-30.16219500000000000, -51.18286000000000000);
 
                 var mapOptions = {
-                    center: myLatlng,
                     zoom: 16,
                     mapTypeId: google.maps.MapTypeId.ROADMAP,
                     disableDefaultUI: true
                 };
 
-                var styledMap = new google.maps.StyledMapType(styles, { name: "Styled Map" });
-                var map = new google.maps.Map(document.getElementById("gmap"),
+                styledMap = new google.maps.StyledMapType(styles, {name: "Styled Map"});
+                map = new google.maps.Map(document.getElementById("gmap"),
                     mapOptions);
-                map.mapTypes.set('map_style', styledMap);
-                map.setMapTypeId('map_style');
 
                 //Marker + infowindow + angularjs compiled ng-click
                 var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
@@ -40,6 +37,28 @@ angular.module('starter.controllers', [])
             }
 
             function carregaParadas() {
+
+                var options = {enableHighAccuracy: true};
+                navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+
+                // onSuccess Geolocation
+                //
+                function onSuccess(position) {
+
+                    // alert('Get location...');
+                    map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+
+                    map.mapTypes.set('map_style', styledMap);
+                    map.setMapTypeId('map_style');
+
+
+                    new google.maps.Marker({
+                        position: new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
+                        map: $scope.map,
+                        icon: 'img/current_location.png',
+                        title: 'Bus Stop'
+                    });
+
                 for (i = 0; i < locations.length; i++) {
                     marker = new google.maps.Marker({
                         position: new google.maps.LatLng(locations[i][1], locations[i][2]),
@@ -50,11 +69,20 @@ angular.module('starter.controllers', [])
 
                     google.maps.event.addListener(marker, 'click', (function (marker, i) {
                         return function () {
-                            window.location = '#/tab/busStop/' + locations[i][0];
+                            window.location = '#/tab/busStop/' + locations[i][1] + ',' + locations[i][2];
                             /*window.location =  'http://www.poatransporte.com.br/php/facades/process.php?a=nc&p=268&t=o';*/
                         }
                     })(marker, i));
                 }
+                }
+
+                function onError(error) {
+                    alert('code: ' + error.code + '\n' +
+                            'message: ' + error.message + '\n');
+                }
+
+
+
             }
 
             google.maps.event.addDomListener(window, 'load', initialize);
@@ -84,7 +112,10 @@ angular.module('starter.controllers', [])
         })
 
         .controller('BusStopDetailCtrl', function ($scope, $stateParams, Onibus) {
-            $scope.onibus = Onibus.get($stateParams.busStopId);     
+            Onibus.get($stateParams.lat, $stateParams.lon).success(function (data) {
+                $scope.onibus = data;
+            });
+            ;
             $scope.remove = function () {
             };
         })
