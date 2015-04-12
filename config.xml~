@@ -5,8 +5,8 @@
     <description>
         Easy Bus App
     </description>
-    <author email="easybus@app" href="http://easybus.com/">
-        Easy Bus App Team
+    <author email="hi@ionicframework" href="http://ionicframework.com/">
+        Ionic Framework Team
     </author>
     <content src="index.html"/>
     <access origin="*"/>
